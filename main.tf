@@ -1,35 +1,25 @@
-resource "proxmox_virtual_environment_container" "test_lxc" {
+module "test_lxc" {
+  source = "./modules/lxc"
+
+  # Identité Proxmox
   node_name = var.proxmox_node
   vm_id     = 999
+  hostname  = "test-clean"
 
-  initialization {
-    hostname = "test-clean"
+  # Réseau
+  ipv4_address = "dhcp"
 
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
+  # Sécurité
+  root_password = var.lxc_root_password
 
-    user_account {
-      password = var.lxc_root_password
-    }
-  }
+  # OS
+  template_file_id = "local:vztmpl/ubuntu-24.04-standard_24.04-2_amd64.tar.zst"
 
-  operating_system {
-    template_file_id = "local:vztmpl/ubuntu-24.04-standard_24.04-2_amd64.tar.zst"
-  }
+  # Stockage
+  datastore_id = "local-lvm"
+  disk_size    = 8
 
-  disk {
-    datastore_id = "local-lvm"
-    size         = 8
-  }
-
-  cpu {
-    cores = 1
-  }
-
-  memory {
-    dedicated = 512
-  }
+  # Ressources
+  cores  = 1
+  memory = 512
 }
