@@ -23,3 +23,15 @@ module "test_lxc" {
   cores  = 1
   memory = 512
 }
+
+# Appel automatique du playbook Ansible pour configurer la nouvelle machine
+resource "null_resource" "ansible_first_install" {
+  depends_on = [module.test_lxc]
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      cd ~/ansible-infra-lab2
+      ansible-playbook -i inventory playbook_first_install.yml --limit test-clean
+    EOT
+  }
+}
