@@ -12,6 +12,7 @@ variable "lxc_root_password" {
   type      = string
   sensitive = true
 }
+
 variable "template_vm_id" {
   description = "ID du template à cloner"
   type        = number
@@ -22,7 +23,20 @@ variable "clone_vm_id" {
   type        = number
 }
 
-variable "clone_name" {
-  description = "Nom de la nouvelle VM"
+variable "clone_prefix" {
+  description = "Préfixe du nom de VM (ex: test, app, db) — combiné avec vm_id pour un nom unique"
   type        = string
+  default     = "vm"
+}
+
+variable "traefik_domain" {
+  description = "Domaine Traefik (optionnel) — auto-enregistre la VM dans Traefik"
+  type        = string
+  default     = ""
+}
+
+variable "traefik_port" {
+  description = "Port Traefik (optionnel) — associé au domaine"
+  type        = string
+  default     = ""
 }
