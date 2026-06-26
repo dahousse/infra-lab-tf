@@ -29,6 +29,18 @@ variable "clone_prefix" {
   default     = "vm"
 }
 
+variable "vm_cpus" {
+  description = "Nombre de CPU cores"
+  type        = number
+  default     = 1
+}
+
+variable "vm_memory" {
+  description = "RAM en MB"
+  type        = number
+  default     = 512
+}
+
 variable "traefik_domain" {
   description = "Domaine Traefik (optionnel) — auto-enregistre la VM dans Traefik"
   type        = string
