@@ -1,0 +1,36 @@
+---
+name: 🏠 Terraform Plan (self-hosted)
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '*.tf'
+      - '*.tfvars'
+
+jobs:
+  plan:
+    name: Plan against Proxmox
+    runs-on: [self-hosted, infra, proxmox, local]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Terraform version
+        run: terraform version
+
+      - name: Terraform init
+        run: terraform init
+        env:
+          TF_VAR_proxmox_api_url: https://192.168.1.1:8006/api2/json
+          TF_VAR_proxmox_api_token_id: dummy
+          TF_VAR_proxmox_api_token_secret: dummy
+
+      - name: Terraform plan
+        run: terraform plan -no-color
+        continue-on-error: true
+        env:
+          TF_VAR_proxmox_api_url: https://192.168.1.1:8006/api2/json
+          TF_VAR_proxmox_api_token_id: dummy
+          TF_VAR_proxmox_api_token_secret: dummy

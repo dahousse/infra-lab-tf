@@ -1,0 +1,29 @@
+resource "proxmox_virtual_environment_vm" "test_cloudinit" {
+  name      = "test-cloudinit"
+  node_name = var.proxmox_node
+  vm_id     = 901
+
+  clone {
+    vm_id = 900
+  }
+
+  cpu {
+    cores = 1
+  }
+
+  memory {
+    dedicated = 512
+  }
+
+  initialization {
+    ip_config {
+      ipv4 {
+        address = "dhcp"
+      }
+    }
+  }
+
+  network_device {
+    bridge = "vmbr0"
+  }
+}
