@@ -8,11 +8,11 @@ resource "proxmox_virtual_environment_vm" "test_clone" {
   }
 
   cpu {
-    cores = 1
+    cores = var.vm_cpus
   }
 
   memory {
-    dedicated = 512
+    dedicated = var.vm_memory
   }
 
   initialization {
@@ -78,7 +78,16 @@ resource "proxmox_virtual_environment_vm" "test_clone" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "sed -i \"/^${self.name} /d\" ~/ansible-infra-lab2/inventory"
+    command = <<-EOT
+      # Clean Ansible inventory
+      sed -i "/^${self.name} /d" ~/ansible-infra-lab2/inventory
+
+      # Clean Traefik conf (safe: rm -f ne génère pas d'erreur si inexistant)
+      ssh -o StrictHostKeyChecking=no root@192.168.1.200 \
+        "rm -f /etc/traefik/conf.d/${self.name}.yml && \
+         systemctl kill -s USR1 traefik && \
+         echo 'Traefik: ${self.name} config removed + reloaded'"
+    EOT
   }
 }
 
