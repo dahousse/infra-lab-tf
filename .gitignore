@@ -16,3 +16,8 @@ terraform.tfvars
 
 # Crash logs
 crash.log
+secret.vault.yml
+vault_pass.txt
+*.vault.yml
+*.vault.yaml
+.vault_pass

@@ -1,0 +1,14 @@
+# ============================================================
+# Terraform variables - Infra Lab
+# ============================================================
+# COPY this file to terraform.tfvars and fill in your values
+# NEVER commit terraform.tfvars to git (already in .gitignore)
+# ============================================================
+
+proxmox_password = "your-proxmox-password"
+lxc_root_password = "your-lxc-root-password"
+template_vm_id = "102"
+clone_vm_id = "905"
+clone_prefix = "test"
+traefik_domain = "test-905.mysmihome.duckdns.org"
+traefik_port = "80"
