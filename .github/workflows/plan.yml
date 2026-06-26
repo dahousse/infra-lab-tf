@@ -5,13 +5,13 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - '*.tf'
-      - '*.tfvars'
+      - "*.tf"
+      - "*.tfvars"
 
 jobs:
   plan:
     name: Plan against Proxmox
-    runs-on: [self-hosted, infra, proxmox, local]
+    runs-on: [self-hosted]
 
     steps:
       - name: Checkout
